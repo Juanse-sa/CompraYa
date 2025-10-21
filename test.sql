@@ -1,0 +1,3 @@
+USE catalogdb;
+SHOW TABLES;
+
