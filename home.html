@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenShop - Home</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+    }
+
+    header {
+      background-color: #2e7d32;
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Barra de búsqueda */
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin: 20px auto;
+      width: 80%;
+    }
+
+    .search-bar input {
+      width: 60%;
+      padding: 10px;
+      border-radius: 8px 0 0 8px;
+      border: 1px solid #ccc;
+    }
+
+    .search-bar button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #f9a825;
+      color: #000;
+      font-weight: bold;
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
+    }
+
+    .search-bar button:hover {
+      background-color: #fdd835;
+    }
+
+    /* Categorías */
+    .categories {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .category-btn {
+      background-color: #f9a825;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .category-btn:hover {
+      background-color: #fdd835;
+    }
+
+    /* Productos */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: scale(1.03);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .add-btn {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .add-btn:hover {
+      background-color: #1b5e20;
+    }
+
+    /* 🛒 Botón carrito flotante */
+    .cart-icon {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #f9a825;
+      color: #000;
+      padding: 14px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .cart-icon:hover {
+      background-color: #fdd835;
+    }
+
+    /* 🧺 Sidebar del carrito */
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 380px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -3px 0 10px rgba(0,0,0,0.3);
+      padding: 20px;
+      overflow-y: auto;
+      transition: right 0.3s ease;
+      z-index: 10;
+    }
+
+    .cart-sidebar.open {
+      right: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .cart-item img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-right: 10px;
+    }
+
+    .cart-item-info {
+      flex: 1;
+    }
+
+    .cart-item button {
+      background: #c62828;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px;
+      cursor: pointer;
+    }
+
+    .cart-item button:hover {
+      background: #b71c1c;
+    }
+
+    .cart-footer {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .checkout-btn {
+      background: #2e7d32;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .checkout-btn:hover {
+      background: #1b5e20;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛍️ GreenShop</h1>
+    <nav>
+      <a href="home.html">Inicio</a>
+      <a href="agregar_producto.html" id="addProductLink">Agregar</a>
+      <a href="gestionar_productos.html" id="manageProductLink">Gestionar</a>
+      <a href="login.html" id="logoutLink">Cerrar sesión</a>
+    </nav>
+  </header>
+
+  <!-- Buscador -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Buscar productos...">
+    <button onclick="buscarProductos()">Buscar</button>
+  </div>
+
+  <!-- Categorías -->
+  <div class="categories">
+    <button class="category-btn" onclick="filtrarCategoria('Todos')">Todos</button>
+    <button class="category-btn" onclick="filtrarCategoria('Electrodomésticos')">Electrodomésticos</button>
+    <button class="category-btn" onclick="filtrarCategoria('Comida')">Comida</button>
+    <button class="category-btn" onclick="filtrarCategoria('Hogar')">Hogar</button>
+    <button class="category-btn" onclick="filtrarCategoria('Ropa')">Ropa</button>
+  </div>
+
+  <!-- Productos -->
+  <div class="product-grid" id="productContainer"></div>
+
+  <!-- 🛒 Carrito lateral -->
+  <div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header">
+      <h2>🛒 Mi Carrito</h2>
+      <button onclick="cerrarCarrito()">❌</button>
+    </div>
+    <div id="cartItems"></div>
+    <div class="cart-footer">
+      <h3>Total: $<span id="total">0</span></h3>
+      <button class="checkout-btn" onclick="finalizarCompra()">Finalizar compra</button>
+    </div>
+  </div>
+
+  <!-- 🛒 Icono flotante -->
+  <div class="cart-icon" onclick="abrirCarrito()">🛒</div>
+
+  <script>
+    // --- Control de roles ---
+    const userRole = localStorage.getItem("userRole");
+    const addLink = document.getElementById("addProductLink");
+    const manageLink = document.getElementById("manageProductLink");
+    const logoutLink = document.getElementById("logoutLink");
+
+    if (!userRole) window.location.href = "login.html";
+    if (userRole !== "admin") {
+      addLink.style.display = "none";
+      manageLink.style.display = "none";
+    }
+
+    logoutLink.addEventListener("click", () => {
+      localStorage.removeItem("userRole");
+      window.location.href = "login.html";
+    });
+
+    // --- Productos ---
+    let productos = [];
+    async function cargarProductos() {
+      const res = await fetch("http://localhost:4000/api/catalog");
+      productos = await res.json();
+      mostrarProductos(productos);
+    }
+
+    function mostrarProductos(lista) {
+      const container = document.getElementById("productContainer");
+      container.innerHTML = lista.map(p => `
+        <div class="product-card">
+          <img src="http://localhost:4000${p.imagen}" alt="${p.nom_producto}">
+          <div class="product-info">
+            <h3>${p.nom_producto}</h3>
+            <p><strong>${p.cat_producto}</strong></p>
+            <p>$${p.pre_producto}</p>
+            <button class="add-btn" onclick="agregarAlCarrito(${p.id_producto}, '${p.nom_producto}', ${p.pre_producto}, 'http://localhost:4000${p.imagen}')">Agregar al carrito</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // --- Filtros y búsqueda ---
+    function filtrarCategoria(cat) {
+      if (cat === "Todos") return mostrarProductos(productos);
+      const filtrados = productos.filter(p => p.cat_producto === cat);
+      mostrarProductos(filtrados);
+    }
+
+    function buscarProductos() {
+      const term = document.getElementById("searchInput").value.toLowerCase();
+      const filtrados = productos.filter(p =>
+        p.nom_producto.toLowerCase().includes(term) ||
+        p.cat_producto.toLowerCase().includes(term)
+      );
+      mostrarProductos(filtrados);
+    }
+
+    // --- 🛒 Carrito ---
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    function agregarAlCarrito(id, nombre, precio, imagen) {
+      const index = carrito.findIndex(item => item.id === id);
+      if (index >= 0) carrito[index].cantidad++;
+      else carrito.push({ id, nombre, precio, imagen, cantidad: 1 });
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      actualizarCarrito();
+    }
+
+    function abrirCarrito() {
+      document.getElementById("cartSidebar").classList.add("open");
+      actualizarCarrito();
+    }
+
+    function cerrarCarrito() {
+      document.getElementById("cartSidebar").classList.remove("open");
+    }
+
+    function actualizarCarrito() {
+      const cartDiv = document.getElementById("cartItems");
+      const totalSpan = document.getElementById("total");
+      if (carrito.length === 0) {
+        cartDiv.innerHTML = "<p>🛒 Tu carrito está vacío.</p>";
+        totalSpan.textContent = 0;
+        return;
+      }
+
+      let total = 0;
+      cartDiv.innerHTML = carrito.map((item, i) => {
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
+        return `
+          <div class="cart-item">
+            <img src="${item.imagen}">
+            <div class="cart-item-info">
+              <strong>${item.nombre}</strong>
+              <p>$${item.precio} x 
+              <input type="number" min="1" value="${item.cantidad}" onchange="actualizarCantidad(${i}, this.value)" style="width:50px;"> 
+              = $${subtotal}</p>
+            </div>
+            <button onclick="eliminarItem(${i})">🗑️</button>
+          </div>
+        `;
+      }).join("");
+
+      totalSpan.textContent = total;
+    }
+
+    function eliminarItem(i) {
+      carrito.splice(i, 1);
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      actualizarCarrito();
+    }
+
+    function actualizarCantidad(i, val) {
+      carrito[i].cantidad = parseInt(val);
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      actualizarCarrito();
+    }
+
+   async function finalizarCompra() {
+  if (carrito.length === 0) return alert("Tu carrito está vacío");
+
+  const cliente = prompt("Ingresa tu nombre para la factura:");
+  if (!cliente) return;
+
+  const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+
+  const pedido = {
+    cliente_nombre: cliente,
+    total,
+    detalles: carrito
+  };
+
+  try {
+    const res = await fetch("http://localhost:4000/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(pedido),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert("✅ ¡Compra registrada correctamente!");
+      carrito = [];
+      localStorage.removeItem("carrito");
+      actualizarCarrito();
+      console.log("Factura generada:", data);
+    } else {
+      alert("⚠️ Error: " + data.message);
+    }
+  } catch (error) {
+    console.error("Error al finalizar compra:", error);
+    alert("Error al registrar la compra");
+  }
+}
+
+
+    cargarProductos();
+  </script>
+</body>
+</html>
